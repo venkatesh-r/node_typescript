@@ -20,7 +20,7 @@ app.post("/addproducts", async (req: Request, res: Response) => {
     });
 
     const addedProducts = await productsList.save();
-    res.send("Product added sucessfully" + addedProducts);
+    res.json({ title: "Product added sucessfully", message: addedProducts });
   } catch (error) {
     if (error instanceof Error) {
       res.status(404).send("ERROR::" + error.message);
@@ -43,15 +43,32 @@ app.get("/getproducts", async (req: Request, res: Response) => {
   }
 });
 
-app.patch("/updateproduct", async (req: Request, res: Response) => {
+app.patch("/updateproduct/:requestId", async (req: Request, res: Response) => {
   try {
-    const productId = req.params;
+    const productId = req.params?.requestId;
     const updatedProduct = req.body;
-    const updatedList = await Product.updateOne(
+    const updatedList = await Product.findOneAndUpdate(
       { _id: productId },
-      updatedProduct
+      updatedProduct,
+      {
+        runValidators: true,
+      }
     );
-    res.json({ message: updatedList });
+    await res.json({ message: updatedList });
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(404).send("ERROR::" + error.message);
+    } else {
+      res.status(404).send("ERROR: An unknown error occured");
+    }
+  }
+});
+
+app.delete("/deleteProduct", async (req: Request, res: Response) => {
+  try {
+    const productId = req.body.id;
+    const deletedProduct = await Product.findOneAndDelete({ _id: productId });
+    res.json({ message: deletedProduct });
   } catch (error) {
     if (error instanceof Error) {
       res.status(404).send("ERROR::" + error.message);
