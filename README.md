@@ -39,15 +39,15 @@ This project provides a simple REST API built with Node.js, Express, Mongo DB an
 ## Usage
 
 1. Start the server
-   npm start
+   npm dev
 2. Access the API at http://localhost:5000
 
 ## API Documentation
 
-GET /getProducts - Get all products
-POST /addproducts - Add new products
-PATCH /updateproduct/:id - Update product details
-DELETE /deleteProduct - Delete product by ID
+`GET /getProducts` : Get all products
+`POST /addproducts` : Add new products
+`PATCH /updateproduct/:id` : Update product details
+`DELETE /deleteProduct` : Delete product by ID
 
 ## Contact
 
